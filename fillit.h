@@ -21,4 +21,6 @@ char					ft_getleft(char **piece, int i, int j);
 char	**ft_get_piece(const int fd);
 
 t_tetris	*ft_read_piece_file(const int fd);
+
+void					ft_putlsttetris(t_tetris *ttrlst);
 #endif

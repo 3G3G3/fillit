@@ -10,7 +10,7 @@ static t_tetris		*ft_ttrsnew(char **piece, char c)
 	if (!piece)
 		res->piece = NULL;
 	else
-		res->piece = (char **)piece;
+		res->piece = piece;
 	res->symbol = c;
 	res->put = 0;
 	res->next = NULL;
@@ -49,6 +49,30 @@ void		ft_putstrtab(char **tab)
 	return ;
 }
 
+void		ft_puttetris(t_tetris *piece)
+{
+	ft_putendl("piece :");
+	ft_putstrtab(piece->piece);
+	ft_putendl("symbol :");
+	ft_putchar(piece->symbol);
+	ft_putchar('\n');
+	ft_putendl("put :");
+	ft_putnbrendl(piece->put);
+}
+
+void		ft_putlsttetris(t_tetris *ttrlst)
+{
+	t_tetris	*tmp;
+
+	tmp = ttrlst;
+	while (tmp->next != NULL)
+	{
+		ft_puttetris(tmp);
+		tmp = tmp->next;
+	}
+	return ;
+}
+
 t_tetris			*ft_read_piece_file(const int fd)
 {
 	char		symbol;
@@ -71,7 +95,7 @@ t_tetris			*ft_read_piece_file(const int fd)
 	symbol++;
 	ft_putendl("d");
 	if (get_next_line(fd, &sep) < 1 ||
-			ft_strcmp(sep, "\n") != 0)
+			ft_strlen(sep) != 0)
 		return (NULL);
 // attention à la fuite mémoire en cas de return NULL
 	ft_putendl("dd");
@@ -80,17 +104,20 @@ t_tetris			*ft_read_piece_file(const int fd)
 	while ((tmp_piece = ft_get_piece(fd)) != NULL)
 	{
 		ft_putendl("f");
+		ft_putstrtab(tmp_piece);
+		ft_putendl("ff");
 		ft_ttrsadd_fifo(&res, ft_ttrsnew(tmp_piece, symbol));
 		ft_putendl("g");
 		ft_strtabdel(&tmp_piece);
 		symbol++;
 		ft_putendl("h");
 		if (get_next_line(fd, &sep) < 1 &&
-				ft_strcmp(sep, "\n") != 0)
+				ft_strlen(sep) != 0)
 			return (NULL);
 // attention à la fuite mémoire en cas de return NULL
 		ft_strdel(&sep);
 	}
 	ft_putendl("i");
+	ft_putlsttetris(res);
 	return (res);
 }

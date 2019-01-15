@@ -15,5 +15,6 @@ int		main(int argc, char **argv)
 		return (-1);
 	pieces = ft_read_piece_file(fd);
 	close(fd);
+//	ft_putlsttetris(pieces);
 	return (0);
 }
