@@ -51,12 +51,12 @@ void		ft_putstrtab(char **tab)
 
 void		ft_puttetris(t_tetris *piece)
 {
-	ft_putendl("piece :");
+	ft_putendl("  piece :");
 	ft_putstrtab(piece->piece);
-	ft_putendl("symbol :");
+	ft_putendl("  symbol :");
 	ft_putchar(piece->symbol);
 	ft_putchar('\n');
-	ft_putendl("put :");
+	ft_putendl("  put :");
 	ft_putnbrendl(piece->put);
 }
 
@@ -65,8 +65,13 @@ void		ft_putlsttetris(t_tetris *ttrlst)
 	t_tetris	*tmp;
 
 	tmp = ttrlst;
-	while (tmp->next != NULL)
+	if (tmp == NULL)
+		return ;
+	ft_puttetris(tmp);
+	tmp = tmp->next;
+	while (tmp != NULL)
 	{
+		ft_putchar('\n');
 		ft_puttetris(tmp);
 		tmp = tmp->next;
 	}
@@ -81,43 +86,43 @@ t_tetris			*ft_read_piece_file(const int fd)
 	t_tetris	*res;
 
 	symbol = 'A';
-	ft_putendl("a");
+//	ft_putendl("a");
 	tmp_piece = ft_get_piece(fd);
 	if (tmp_piece == NULL)
 		return (NULL);
-	ft_putendl("b");
-	ft_putstrtab(tmp_piece);
+//	ft_putendl("b");
+//	ft_putstrtab(tmp_piece);
 	res = ft_ttrsnew(tmp_piece, symbol);
 	if (!res)
 		return (NULL);
-	ft_putendl("c");
-	ft_strtabdel(&tmp_piece);
+//	ft_putendl("c");
+//	ft_strtabdel(&tmp_piece);
 	symbol++;
-	ft_putendl("d");
+//	ft_putendl("d");
 	if (get_next_line(fd, &sep) < 1 ||
 			ft_strlen(sep) != 0)
 		return (NULL);
 // attention à la fuite mémoire en cas de return NULL
-	ft_putendl("dd");
+//	ft_putendl("dd");
 	ft_strdel(&sep);
-	ft_putendl("e");
+//	ft_putendl("e");
 	while ((tmp_piece = ft_get_piece(fd)) != NULL)
 	{
-		ft_putendl("f");
-		ft_putstrtab(tmp_piece);
-		ft_putendl("ff");
+//		ft_putendl("f");
+//		ft_putstrtab(tmp_piece);
+//		ft_putendl("ff");
 		ft_ttrsadd_fifo(&res, ft_ttrsnew(tmp_piece, symbol));
-		ft_putendl("g");
-		ft_strtabdel(&tmp_piece);
+//		ft_putendl("g");
+//		ft_strtabdel(&tmp_piece);
 		symbol++;
-		ft_putendl("h");
+//		ft_putendl("h");
 		if (get_next_line(fd, &sep) < 1 &&
 				ft_strlen(sep) != 0)
 			return (NULL);
 // attention à la fuite mémoire en cas de return NULL
 		ft_strdel(&sep);
 	}
-	ft_putendl("i");
-	ft_putlsttetris(res);
+//	ft_putendl("i");
+//	ft_putlsttetris(res);
 	return (res);
 }
